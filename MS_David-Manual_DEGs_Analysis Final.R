@@ -601,57 +601,21 @@ colnames(DEGs_ALL_Final)[6] <- "LN MS Score"
 colnames(DEGs_ALL_Final)
 str(DEGs_ALL_Final)
 
-# Plot the heatmap
-
+### Plot the heatmap -----------------------------------------------------------------------
 paletteLength <- 44
 myColor <- colorRampPalette(c("#1100EE", "white", "orangered"))(paletteLength)
-# length(breaks) == length(paletteLength) + 1
-# use floor and ceiling to deal with even/odd length pallettelengths
 myBreaks <- c(seq(-2, 0, length.out=ceiling(paletteLength/2) + 1), 
               seq(5/paletteLength, max(5), length.out=floor(paletteLength/2)))
-
-head(DEGs_ALL_Combine)
-
-# Label <- as.data.frame(DEGs_ALL_Combine$label)
-# rownames(DEGs_ALL_Combine) <- rownames(DEGs_ALL_Combine)
-# rownames(Label) <- rownames(DEGs_ALL_Final)
-# head(Label)
-# 
-# cols <- colorRampPalette(brewer.pal(3, "Dark2"))
-# cols_color <- cols(length(unique(DEGs_ALL_Combine$label)))
-# names(cols_color) <- unique(DEGs_ALL_Combine$label)
-# cols_color <- list(cols_color = cols_color)
-# 
-# annotation_row = Label,
-# annotation_colors = cols_color
-
-dim(DEGs_ALL_Final)
 pheatmap(DEGs_ALL_Final, color=myColor, breaks=myBreaks, 
          cluster_cols = FALSE, cluster_rows = FALSE, na_col = "white",
          gaps_col = c(5,6), gaps_row = c(26,27)
         )
-log(0.9)
-
 ### Find the overlap gene across the six database ------------------------------------------
-
-## scRNA
-head(scRNA_Alb_DESingle_s)
-head(scRNA_Jackson_DESingleS)
- 
-## RNA
-head(RNA_ZZ_s)
-head(RNA_IC_s)
-
-## Expression Array
-head(MA_xiangya_SLE_s)
-head(MA_MU_LN_s)
 
 venn(list(scRNASeq_LN_Kidney = scRNA_Alb_DESingle_s$Gene,
                   scRNASeq_SLE_PBMC= scRNA_Jackson_DESingleS$Gene,
-                  
                   RNASeq_LN_Kidney = RNA_ZZ_s$Gene,
                   RNASeq_SLE_CD8TCell = RNA_IC_s$SYMBOL,
-                  
                   ExprArray_SLE_PBMC = MA_xiangya_SLE_s$Gene.symbol,
                   ExprArray_LN_Kidney = MA_MU_LN_s$Gene.Symbol
         ),
